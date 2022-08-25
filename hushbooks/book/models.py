@@ -2,22 +2,22 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class Publisher(models.Model):
+class Book(models.Model):
     name = models.CharField(max_length=255)
+    short_description = models.CharField(max_length=500)
+    description = models.CharField(max_length=1000)
+    publisher = models.ForeignKey('Publisher', on_delete=models.PROTECT)
+    year = models.IntegerField()
+    part = models.IntegerField()
+    page_count = models.IntegerField()
+    table_of_content = models.JSONField()
 
     def __str__(self):
         return self.name
 
 
-class Book(models.Model):
+class Publisher(models.Model):
     name = models.CharField(max_length=255)
-    short_description = models.CharField(max_length=500)
-    description = models.CharField(max_length=1000, null=True)
-    #publisher_id = models.ForeignKey(Publisher, on_delete=models.PROTECT, null=True)
-    year = models.IntegerField(null=True)
-    part = models.IntegerField(null=True)
-    page_count = models.IntegerField(null=True)
-    #table_of_content = models.JSONField(null=True)
 
     def __str__(self):
         return self.name
@@ -39,7 +39,13 @@ class Author(models.Model):
     name = models.CharField(max_length=255)
     books = models.ManyToManyField(Book)
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=255)
     books = models.ManyToManyField(Book)
+
+    def __str__(self):
+        return self.name
