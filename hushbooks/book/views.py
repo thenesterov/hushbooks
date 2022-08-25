@@ -10,10 +10,11 @@ from rest_framework.views import APIView
 from .models import Book
 from .serializers import BookSerializer
 
+
 class BookAPIView(APIView):
     def get(self, request):
         book = Book.objects.all()
-        return Response({'posts': BookSerializer(many=True).data})
+        return Response({'posts': BookSerializer(book, many=True).data})
 
     def post(self, request):
         serializer = BookSerializer(data=request.data)
@@ -21,8 +22,7 @@ class BookAPIView(APIView):
         serializer.save()
         return Response({'post': serializer.data})
 
-    '''
-    def put(self, requset, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         pk = kwargs.get("pk", None)
         if not pk:
             return Response({"error": "Method PUT not allowed"})
@@ -30,7 +30,8 @@ class BookAPIView(APIView):
             instance = Book.objects.get(pk=pk)
         except:
             return Response({"error": "Object does not exists"})
-        serializer = BookSerializer(data=requset.data, instance=instance)
+
+        serializer = BookSerializer(data=request.data, instance=instance)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"post": serializer.data})
@@ -43,4 +44,3 @@ class BookAPIView(APIView):
 
 
         return Response({"post": "delete post " + str(pk)})
-    '''

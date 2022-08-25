@@ -20,16 +20,14 @@ class BookSerializer(serializers.Serializer):
     def create(self, validated_data):
         return Book.objects.create(**validated_data)
 
-    '''
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.short_description = validated_data.get("short_description", instance.short_description)
         instance.description = validated_data.get("description", instance.description)
-        #instance.publisher_id = validated_data.get("publisher_id", instance.publisher_id)
-        instance.year = validated_data.get("year", instance.year)
-        instance.part = validated_data.get("part", instance.part)
+        # instance.publisher_id = validated_data.get("publisher_id", instance.publisher_id)
         instance.page_count = validated_data.get("page_count", instance.page_count)
-        #instance.table_of_content = serializers.JSONField()
+        instance.part = validated_data.get("part", instance.part)
+        instance.year = validated_data.get("year", instance.year)
+        # instance.table_of_content = serializers.JSONField()
         instance.save()
         return instance
-    '''
