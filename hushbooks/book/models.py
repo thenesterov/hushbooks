@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 class Book(models.Model):
     name = models.CharField(max_length=255)
+    authors = models.ManyToManyField('Author', related_name='authors')
+    genres = models.ManyToManyField('Genre', related_name='genres')
     short_description = models.CharField(max_length=500)
     description = models.CharField(max_length=1000)
     publisher = models.ForeignKey('Publisher', on_delete=models.PROTECT)
@@ -37,7 +39,6 @@ class Cover(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=255)
-    books = models.ManyToManyField(Book)
 
     def __str__(self):
         return self.name
@@ -45,7 +46,6 @@ class Author(models.Model):
 
 class Genre(models.Model):
     name = models.CharField(max_length=255)
-    books = models.ManyToManyField(Book)
 
     def __str__(self):
         return self.name

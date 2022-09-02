@@ -1,12 +1,8 @@
-import io
-
 from rest_framework import serializers
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
 
-from .models import Book
+from .models import *
 
-
+"""
 class BookSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)
     short_description = serializers.CharField(max_length=500)
@@ -31,3 +27,26 @@ class BookSerializer(serializers.Serializer):
         instance.table_of_content = validated_data.get("table_of_content", instance.table_of_content)
         instance.save()
         return instance
+"""
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = '__all__'
+
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
+
+
+class BookSerializer(serializers.ModelSerializer):
+    authors = AuthorSerializer(many=True, read_only=True).data
+    genres = GenreSerializer(many=True, read_only=True).data
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+
