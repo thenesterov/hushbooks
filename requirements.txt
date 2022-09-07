@@ -4,3 +4,4 @@ sqlparse==0.4.2
 djangorestframework==3.13.1
 djoser==2.1.0
 django-cors-headers==3.13.0
+python-decouple==3.6
